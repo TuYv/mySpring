@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -21,7 +20,8 @@ public class DependencyLookupDemo {
     public static void main(String[] args) {
         //配置 xml 配置文件
         //启动 Spring 应用上下文
-        BeanFactory beanFactory =  new ClassPathXmlApplicationContext("META_INF/dependency-lookup-context.xml");
+        BeanFactory beanFactory =  new ClassPathXmlApplicationContext(
+            "META-INF/dependency-lookup-context.xml");
         //类型查找
         lookupByType(beanFactory);
         //类型查找集合
