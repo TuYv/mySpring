@@ -1,5 +1,7 @@
-package com.max.springframework.beans;
+package com.max.springframework;
 
+import com.max.springframework.beans.UserDao;
+import com.max.springframework.beans.UserService;
 import com.max.springframework.beans.factory.PropertyValue;
 import com.max.springframework.beans.factory.PropertyValues;
 import com.max.springframework.beans.factory.config.BeanDefinition;
