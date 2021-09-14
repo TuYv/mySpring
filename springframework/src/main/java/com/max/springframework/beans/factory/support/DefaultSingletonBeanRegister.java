@@ -17,6 +17,7 @@ public class DefaultSingletonBeanRegister implements SingletonBeanRegistry {
     public Object getSingleton(String beanName) {
         return singletonObjects.get(beanName);
     }
+
     protected void addSingleton(String beanName, Object singletonObject) {
         singletonObjects.put(beanName, singletonObject);
     }
