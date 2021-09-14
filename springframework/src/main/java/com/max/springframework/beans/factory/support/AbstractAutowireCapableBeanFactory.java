@@ -1,7 +1,11 @@
 package com.max.springframework.beans.factory.support;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.max.springframework.beans.BeansException;
+import com.max.springframework.beans.factory.PropertyValue;
+import com.max.springframework.beans.factory.PropertyValues;
 import com.max.springframework.beans.factory.config.BeanDefinition;
+import com.max.springframework.beans.factory.config.BeanReference;
 import java.lang.reflect.Constructor;
 
 
@@ -19,6 +23,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         Object bean = null;
         try {
             bean = createBeanInstance(beanDefinition, beanName, args);
+            // 给 Bean 填充属性
+            applyPropertyValues(beanName, bean, beanDefinition);
         }catch (Exception e) {
             throw new BeansException("Instantiation of bean failed", e);
         }
@@ -41,6 +47,26 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             }
         }
         return instantiationStrategy.instantiate(beanDefinition, beanName, constructor, args);
+    }
+
+    /**
+     * Bean 属性填充
+     */
+    protected void applyPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) {
+        Object value;
+        try {
+            PropertyValues propertyValues = beanDefinition.getPropertyValues();
+            for(PropertyValue pv : propertyValues.getPropertyValues()) {
+                if ((value = pv.getValue()) instanceof BeanReference) {
+                    BeanReference beanReference = (BeanReference) value;
+                    value = getBean(beanReference.getBeanName());
+                }
+                //属性填充
+                BeanUtil.setFieldValue(bean, pv.getName(), value);
+            }
+        }catch (Exception e) {
+            throw new BeansException("Error setting property values：" + beanName);
+        }
     }
 
     public InstantiationStrategy getInstantiationStrategy() {
