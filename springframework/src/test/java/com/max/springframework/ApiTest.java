@@ -1,5 +1,6 @@
 package com.max.springframework;
 
+import cn.hutool.core.io.IoUtil;
 import com.max.springframework.beans.UserDao;
 import com.max.springframework.beans.UserService;
 import com.max.springframework.beans.PropertyValue;
@@ -8,12 +9,24 @@ import com.max.springframework.beans.factory.config.BeanDefinition;
 import com.max.springframework.beans.factory.config.BeanReference;
 import com.max.springframework.beans.factory.support.DefaultListableBeanFactory;
 import com.max.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import com.max.springframework.core.io.DefaultResourceLoader;
+import com.max.springframework.core.io.Resource;
+import java.io.IOException;
+import java.io.InputStream;
+import org.junit.Before;
 import org.junit.Test;
 
 public class ApiTest {
 
+    private DefaultResourceLoader resourceLoader;
+
+    @Before
+    public void init() {
+        resourceLoader = new DefaultResourceLoader();
+    }
     @Test
     public void test_BeanFactory(){
+
         // 1.初始化 BeanFactory
         DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
@@ -32,6 +45,14 @@ public class ApiTest {
         // 5. UserService 获取bean
         UserService userService = (UserService) beanFactory.getBean("userService");
         userService.queryUserInfo();
+    }
+
+    @Test
+    public void test_file() throws IOException {
+        Resource resource = resourceLoader.getResource("classpath:important.properties");
+        InputStream inputStream = resource.getInputStream();
+        String content = IoUtil.readUtf8(inputStream);
+        System.out.println(content);
     }
 
     @Test
