@@ -1,4 +1,4 @@
-package com.max.springframework.beans.factory;
+package com.max.springframework.beans;
 
 import java.util.ArrayList;
 import java.util.List;

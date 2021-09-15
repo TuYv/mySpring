@@ -2,11 +2,12 @@ package com.max.springframework;
 
 import com.max.springframework.beans.UserDao;
 import com.max.springframework.beans.UserService;
-import com.max.springframework.beans.factory.PropertyValue;
-import com.max.springframework.beans.factory.PropertyValues;
+import com.max.springframework.beans.PropertyValue;
+import com.max.springframework.beans.PropertyValues;
 import com.max.springframework.beans.factory.config.BeanDefinition;
 import com.max.springframework.beans.factory.config.BeanReference;
 import com.max.springframework.beans.factory.support.DefaultListableBeanFactory;
+import com.max.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.junit.Test;
 
 public class ApiTest {
@@ -30,6 +31,20 @@ public class ApiTest {
 
         // 5. UserService 获取bean
         UserService userService = (UserService) beanFactory.getBean("userService");
+        userService.queryUserInfo();
+    }
+
+    @Test
+    public void testXML() {
+        // 1.初始化 BeanFactory
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+
+        // 2. 读取配置文件&注册Bean
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
+        reader.loadBeanDefinitions("classpath:spring.xml");
+
+        // 3. 获取Bean对象调用方法
+        UserService userService = (UserService) beanFactory.getBean("userService", UserService.class);
         userService.queryUserInfo();
     }
 

@@ -2,8 +2,8 @@ package com.max.springframework.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.max.springframework.beans.BeansException;
-import com.max.springframework.beans.factory.PropertyValue;
-import com.max.springframework.beans.factory.PropertyValues;
+import com.max.springframework.beans.PropertyValue;
+import com.max.springframework.beans.PropertyValues;
 import com.max.springframework.beans.factory.config.BeanDefinition;
 import com.max.springframework.beans.factory.config.BeanReference;
 import java.lang.reflect.Constructor;

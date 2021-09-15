@@ -1,4 +1,4 @@
-package com.max.springframework.beans.factory;
+package com.max.springframework.beans;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

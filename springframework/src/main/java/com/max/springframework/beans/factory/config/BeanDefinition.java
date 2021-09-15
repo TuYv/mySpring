@@ -1,7 +1,6 @@
 package com.max.springframework.beans.factory.config;
 
-import com.max.springframework.beans.factory.PropertyValues;
-import lombok.AllArgsConstructor;
+import com.max.springframework.beans.PropertyValues;
 
 /**
  * 存储bean的信息
