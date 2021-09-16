@@ -3,13 +3,20 @@ package com.max.springframework.beans.factory.support;
 import com.max.springframework.beans.BeansException;
 import com.max.springframework.beans.factory.BeanFactory;
 import com.max.springframework.beans.factory.config.BeanDefinition;
+import com.max.springframework.beans.factory.config.BeanPostProcessor;
+import com.max.springframework.beans.factory.config.ConfigurableBeanFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * bean工厂的虚拟类
  * @author max
  * @date 2021/9/14 18:02
  */
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegister implements BeanFactory {
+public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegister implements ConfigurableBeanFactory {
+
+    private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
     @Override
     public Object getBean(String name) throws BeansException {
@@ -19,6 +26,10 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegister i
     @Override
     public Object getBean(String name, Object... args) throws BeansException {
         return doGetBean(name, args);
+    }
+    @Override
+    public <T> T getBean(String name, Class<T> requiredType) throws BeansException {
+        return (T) getBean(name);
     }
 
     protected <T> T doGetBean(final String name, final Object[] args) {

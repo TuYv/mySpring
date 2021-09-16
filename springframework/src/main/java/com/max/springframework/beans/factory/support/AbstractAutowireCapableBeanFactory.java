@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.max.springframework.beans.BeansException;
 import com.max.springframework.beans.PropertyValue;
 import com.max.springframework.beans.PropertyValues;
+import com.max.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import com.max.springframework.beans.factory.config.BeanDefinition;
 import com.max.springframework.beans.factory.config.BeanReference;
 import java.lang.reflect.Constructor;
@@ -14,7 +15,7 @@ import java.lang.reflect.Constructor;
  * @author max
  * @date 2021/9/14 18:09
  */
-public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory{
+public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory {
 
     private InstantiationStrategy instantiationStrategy = new SimpleInstantiationStrategy();
 
@@ -76,5 +77,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     public void setInstantiationStrategy(
         InstantiationStrategy instantiationStrategy) {
         this.instantiationStrategy = instantiationStrategy;
+    }
+
+    private void invokeInitMethods(String beanName, Object bean, BeanDefinition beanDefinition) throws Exception {
+
     }
 }
