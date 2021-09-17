@@ -5,6 +5,11 @@ import cn.hutool.core.util.StrUtil;
 import com.max.springframework.beans.BeansException;
 import com.max.springframework.beans.PropertyValue;
 import com.max.springframework.beans.PropertyValues;
+import com.max.springframework.beans.factory.Aware;
+import com.max.springframework.beans.factory.BeanClassLoaderAware;
+import com.max.springframework.beans.factory.BeanFactoryAware;
+import com.max.springframework.beans.factory.BeanNameAware;
+import com.max.springframework.beans.factory.DisposableBean;
 import com.max.springframework.beans.factory.InitializingBean;
 import com.max.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import com.max.springframework.beans.factory.config.BeanDefinition;
@@ -35,9 +40,16 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         }catch (Exception e) {
             throw new BeansException("Instantiation of bean failed", e);
         }
+        // 注册实现了 DisposableBean 接口的 Bean 对象
+        registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
 
         addSingleton(beanName,bean);
         return bean;
+    }
+    protected void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {
+        if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
+            registerDisposableBean(beanName, new DisposableBeanAdapter(bean, beanName, beanDefinition));
+        }
     }
 
     protected Object createBeanInstance(BeanDefinition beanDefinition, String beanName, Object[] args) {
@@ -86,6 +98,19 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     private Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+        // invokeAwareMethods
+        if (bean instanceof Aware) {
+            if (bean instanceof BeanFactoryAware) {
+                ((BeanFactoryAware) bean).setBeanFactory(this);
+            }
+            if (bean instanceof BeanClassLoaderAware) {
+                ((BeanClassLoaderAware) bean).setBeanClassLoader(getBeanClassLoader());
+            }
+            if (bean instanceof BeanNameAware) {
+                ((BeanNameAware) bean).setBeanName(beanName);
+            }
+        }
+
         // 1. 执行 BeanPostProcessor Before 处理
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
         //2. 执行bean的初始化方法
@@ -111,6 +136,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     //todo  为什么init是写成一个方法  而 destroy写了一个适配器
     private void invokeInitMethods(String beanName, Object bean, BeanDefinition beanDefinition) throws Exception {
+
     // 1. 实现接口 InitializingBean
         if (bean instanceof InitializingBean) {
             ((InitializingBean) bean).afterPropertiesSet();
