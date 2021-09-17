@@ -1,5 +1,8 @@
 package com.max.springframework.context.support;
 
+import com.max.springframework.beans.factory.support.DefaultListableBeanFactory;
+import com.max.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+
 /**
  * @program: mySpring
  * @description: XML应用上下文
@@ -8,4 +11,14 @@ package com.max.springframework.context.support;
  **/
 public abstract class AbstractXmlApplicationContext extends AbstractRefreshableApplicationContext{
 
+    @Override
+    protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) {
+        XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory, this);
+        String[] configLocations = getConfigLocations();
+        if(null != configLocations) {
+            beanDefinitionReader.loadBeanDefinitions(configLocations);
+        }
+    }
+
+    protected abstract String[] getConfigLocations();
 }

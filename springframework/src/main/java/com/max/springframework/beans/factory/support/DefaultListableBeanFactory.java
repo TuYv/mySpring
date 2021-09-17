@@ -54,6 +54,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     }
 
     @Override
+    public void preInstantiateSingletons() throws BeansException {
+
+    }
+
+    @Override
     public void destroySingletons() {
 
     }
