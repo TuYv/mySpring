@@ -12,7 +12,7 @@ import java.util.Set;
  * @author max
  * @date 2021/9/14 18:00
  */
-public class DefaultSingletonBeanRegister implements SingletonBeanRegistry {
+public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     private Map<String, Object> singletonObjects = new HashMap<>();
 
     private final Map<String, DisposableBean> disposableBeans = new HashMap<>();

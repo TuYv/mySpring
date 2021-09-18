@@ -81,6 +81,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             String className = bean.getAttribute("class");
             String initMethod = bean.getAttribute("init-method");
             String destroyMethodName = bean.getAttribute("destroy-method");
+            String beanScope = bean.getAttribute("scope");
             //获取Class 方便获取类中名称
             Class< ? > clazz = Class.forName(className);
             //优先级 id > name
@@ -93,10 +94,13 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             BeanDefinition beanDefinition = new BeanDefinition(clazz);
             beanDefinition.setInitMethodName(initMethod);
             beanDefinition.setDestroyMethodName(destroyMethodName);
+            if (StrUtil.isNotEmpty(beanScope)) {
+               beanDefinition.setScope(beanScope);
+            }
             //读取属性并填充
             for (int j = 0; j < bean.getChildNodes().getLength(); j++) {
-               if(!(bean.getChildNodes().item(j) instanceof Element)) continue;
-               if(!"property".equals(bean.getChildNodes().item(j).getNodeName())) continue;
+               if (!(bean.getChildNodes().item(j) instanceof Element)) continue;
+               if (!"property".equals(bean.getChildNodes().item(j).getNodeName())) continue;
                //解析标签 property
                 Element property = (Element) bean.getChildNodes().item(j);
                 String attrName = property.getAttribute("name");
