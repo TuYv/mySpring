@@ -122,9 +122,36 @@ public class ApiTest {
         String result = userService.queryUserInfo();
         System.out.println("测试结果：" + result);
 
-        System.out.println("ApplicationContextAware："+userService.getApplicationContext());
-        System.out.println("BeanFactoryAware："+userService.getBeanFactory());
+//        System.out.println("ApplicationContextAware："+userService.getApplicationContext());
+//        System.out.println("BeanFactoryAware："+userService.getBeanFactory());
 
+    }
+
+    @Test
+    public void test_prototype() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        applicationContext.registerShutdownHook();
+
+        UserService userService01 = applicationContext.getBean("userService10", UserService.class);
+        UserService userService02 = applicationContext.getBean("userService10", UserService.class);
+
+        // 3. 配置 scope="prototype/singleton"
+        System.out.println(userService01);
+        System.out.println(userService02);
+
+        // 4. 打印十六进制哈希
+        System.out.println(userService01 + " 十六进制哈希：" + Integer.toHexString(userService01.hashCode()));
+
+    }
+
+    @Test
+    public void test_factory_bean() {
+        // 1.初始化 BeanFactory
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        applicationContext.registerShutdownHook();
+        // 2. 调用代理方法
+        UserService userService = applicationContext.getBean("userService10", UserService.class);
+        System.out.println("测试结果：" + userService.queryUserInfo());
     }
 
 }

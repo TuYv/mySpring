@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
 
-    <bean id="userDao" class="com.max.springframework.beans.UserDao" init-method="initDataMethod" destroy-method="destroyDataMethod"/>
+<!--    <bean id="userDao" class="com.max.springframework.beans.UserDao" init-method="initDataMethod" destroy-method="destroyDataMethod"/>-->
 
-    <bean id="userService" class="com.max.springframework.beans.UserService">
-        <property name="uId" value="10001"/>
-        <property name="userDao" ref="userDao"/>
-        <property name="company" value="腾讯"/>
-        <property name="location" value="深圳"/>
+<!--    <bean id="userService" class="com.max.springframework.beans.UserService">-->
+<!--        <property name="uId" value="10001"/>-->
+<!--        <property name="userDao" ref="userDao"/>-->
+<!--        <property name="company" value="腾讯"/>-->
+<!--        <property name="location" value="深圳"/>-->
+<!--    </bean>-->
+
+    <bean id="proxyUserDao" class="com.max.springframework.beans.ProxyBeanFactory"/>
+
+    <bean id="userService10" class="com.max.springframework.beans.UserService" scope="prototype">
+        <property name="uId" value="10002"/>
+        <property name="company" value="阿里巴巴"/>
+        <property name="location" value="上海"/>
+        <property name="userDao" ref="proxyUserDao"/>
     </bean>
+
 
 </beans>

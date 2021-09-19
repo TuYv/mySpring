@@ -1,54 +1,72 @@
 package com.max.springframework.beans;
 
-import com.max.springframework.beans.factory.BeanClassLoaderAware;
-import com.max.springframework.beans.factory.BeanFactory;
-import com.max.springframework.beans.factory.BeanFactoryAware;
-import com.max.springframework.beans.factory.BeanNameAware;
-import com.max.springframework.context.ApplicationContext;
-import com.max.springframework.context.ApplicationContextAware;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 /**
  * @author max
  * @date 2021/9/14 18:19
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class UserService implements BeanNameAware, BeanClassLoaderAware, ApplicationContextAware,
-    BeanFactoryAware {
+public class UserService/* implements BeanNameAware, BeanClassLoaderAware, ApplicationContextAware,
+    BeanFactoryAware*/ {
 
-    private ApplicationContext applicationContext;
-    private BeanFactory beanFactory;
+//    private ApplicationContext applicationContext;
+//    private BeanFactory beanFactory;
 
     private String uId;
     private String company;
     private String location;
-    private UserDao userDao;
+    private IUserDao userDao;
 
     public String queryUserInfo() {
         return userDao.queryUserName(uId) + "," + company + "," + location;
     }
 
-    @Override
-    public void setBeanClassLoader(ClassLoader classLoader) {
-        System.out.println("ClassLoader：" + classLoader);
+    public String getuId() {
+        return uId;
     }
 
-    @Override
-    public void setBeanName(String name) {
-        System.out.println("Bean Name is：" + name);
+    public void setuId(String uId) {
+        this.uId = uId;
     }
 
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = beanFactory;
+    public String getCompany() {
+        return company;
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
+    public void setCompany(String company) {
+        this.company = company;
     }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public IUserDao getUserDao() {
+        return userDao;
+    }
+
+    public void setUserDao(IUserDao userDao) {
+        this.userDao = userDao;
+    }
+//    @Override
+//    public void setBeanClassLoader(ClassLoader classLoader) {
+//        System.out.println("ClassLoader：" + classLoader);
+//    }
+//
+//    @Override
+//    public void setBeanName(String name) {
+//        System.out.println("Bean Name is：" + name);
+//    }
+
+//    @Override
+//    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+//        this.beanFactory = beanFactory;
+//    }
+//
+//    @Override
+//    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+//        this.applicationContext = applicationContext;
+//    }
 }
