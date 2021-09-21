@@ -14,11 +14,11 @@ import com.max.springframework.common.MyBeanPostProcessor;
 import com.max.springframework.context.support.ClassPathXmlApplicationContext;
 import com.max.springframework.core.io.DefaultResourceLoader;
 import com.max.springframework.core.io.Resource;
-import org.junit.Before;
-import org.junit.Test;
-
+import com.max.springframework.event.CustomEvent;
 import java.io.IOException;
 import java.io.InputStream;
+import org.junit.Before;
+import org.junit.Test;
 
 public class ApiTest {
 
@@ -152,6 +152,15 @@ public class ApiTest {
         // 2. 调用代理方法
         UserService userService = applicationContext.getBean("userService10", UserService.class);
         System.out.println("测试结果：" + userService.queryUserInfo());
+    }
+
+
+    @Test
+    public void test_event() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        applicationContext.publishEvent(new CustomEvent(applicationContext, 1019129009086763L, "成功了！"));
+
+        applicationContext.registerShutdownHook();
     }
 
 }

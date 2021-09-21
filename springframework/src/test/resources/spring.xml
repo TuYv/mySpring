@@ -19,5 +19,9 @@
         <property name="userDao" ref="proxyUserDao"/>
     </bean>
 
+    <bean class="com.max.springframework.event.ContextRefreshedEventListener"/>
+    <bean class="com.max.springframework.event.CustomEventListener"/>
+    <bean class="com.max.springframework.event.ContextClosedEventListener"/>
+
 
 </beans>
