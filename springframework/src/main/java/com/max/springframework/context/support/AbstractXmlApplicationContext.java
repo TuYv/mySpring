@@ -4,6 +4,7 @@ import com.max.springframework.beans.factory.support.DefaultListableBeanFactory;
 import com.max.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 
 /**
+ * 从xml中加载beanDefinition
  * @program: mySpring
  * @description: XML应用上下文
  * @author: Max.Tu

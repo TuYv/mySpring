@@ -3,6 +3,7 @@ package com.max.springframework.beans.factory;
 import com.max.springframework.beans.BeansException;
 
 /**
+ * Bean管理的开始 申明了获取bean的几种方法
  * @author max
  * @date 2021/9/14 17:24
  */

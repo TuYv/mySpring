@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * bean工厂的虚拟类
+ * bean工厂的虚拟类 实现了 bean的set和前置处理的方法
  * @author max
  * @date 2021/9/14 18:02
  */

@@ -5,6 +5,7 @@ import com.max.springframework.beans.factory.ConfigurableListableBeanFactory;
 import com.max.springframework.beans.factory.support.DefaultListableBeanFactory;
 
 /**
+ * 实现了刷新/配置 BeanFactory的功能，管理了一个DefaultListableBeanFactory对象
  * @program: mySpring
  * @description: 自动配置应用上下文
  * @author: Max.Tu
@@ -13,6 +14,10 @@ import com.max.springframework.beans.factory.support.DefaultListableBeanFactory;
 public abstract class AbstractRefreshableApplicationContext extends AbstractApplicationContext{
     private DefaultListableBeanFactory beanFactory;
 
+    /**
+     * 创建一个beanFactory并加载BeanDefinitions
+     * @throws BeansException
+     */
     @Override
     protected void refreshBeanFactory() throws BeansException {
         DefaultListableBeanFactory beanFactory = createBeanFactory();

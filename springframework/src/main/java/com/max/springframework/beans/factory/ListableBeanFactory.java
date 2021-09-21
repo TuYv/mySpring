@@ -4,6 +4,9 @@ import com.max.springframework.beans.BeansException;
 
 import java.util.Map;
 
+/**
+ * 申明了根据type获取bean列表的方法 和 返回所有bean name的方法
+ */
 public interface ListableBeanFactory extends BeanFactory{
     /**
      * 按照类型返回 Bean 实例

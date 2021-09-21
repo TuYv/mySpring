@@ -16,6 +16,8 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
+ * 定义了applicationContext的主要逻辑，并实现了部分功能
+ *
  * @program: mySpring
  * @description: 抽象应用上下文
  * @author: Max.Tu
@@ -62,6 +64,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
 
     protected abstract ConfigurableListableBeanFactory getBeanFactory();
 
+    /**
+     * 为实现了BeanFactoryProcessor的beanFactory执行postProcess方法
+     * @param beanFactory
+     */
     private void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
         Map<String, BeanFactoryPostProcessor> beanFactoryPostProcessorMap = beanFactory.getBeansOfType(BeanFactoryPostProcessor.class);
         for(BeanFactoryPostProcessor beanFactoryPostProcessor : beanFactoryPostProcessorMap.values()) {
@@ -69,12 +75,18 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         }
     }
 
+    /**
+     * 将该上下文管理的beanFactory放入事件播放者中，并为beanFactory添加这个事件播放者的bean
+     */
     private void initApplicationEventMulticaster() {
         ConfigurableListableBeanFactory beanFactory = getBeanFactory();
         applicationEventMulticaster = new SimpleApplicationEventMulticaster(beanFactory);
         beanFactory.registerSingleton(APPLICATION_EVENT_MULTICASTER_BEAN_NAME, applicationEventMulticaster);
     }
 
+    /**
+     * 将事件监听者放入广播中
+     */
     private void registerListeners() {
         Collection<ApplicationListener> applicationListeners = getBeansOfType(ApplicationListener.class).values();
         applicationListeners.forEach(x -> applicationEventMulticaster.addApplicationListener(x));
@@ -89,6 +101,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         applicationEventMulticaster.multicastEvent(event);
     }
 
+    /**
+     * 将实现了BeanPostProcessor的bean放入beanFactory中以供后续使用
+     * @param beanFactory
+     */
     private void registerBeanPostProcessors(ConfigurableListableBeanFactory beanFactory) {
         Map<String, BeanPostProcessor> beanPostProcessorMap = beanFactory.getBeansOfType(BeanPostProcessor.class);
         for (BeanPostProcessor beanPostProcessor : beanPostProcessorMap.values()) {

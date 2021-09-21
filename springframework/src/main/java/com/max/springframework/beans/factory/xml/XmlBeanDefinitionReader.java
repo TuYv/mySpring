@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
+ * 支持以各种姿势从xml中获取beanDefinition
  * @author max
  * @date 2021/9/15 16:45
  */

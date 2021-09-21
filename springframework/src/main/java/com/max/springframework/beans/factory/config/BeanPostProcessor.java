@@ -3,7 +3,7 @@ package com.max.springframework.beans.factory.config;
 import com.max.springframework.beans.BeansException;
 
 /**
- * 修改新实例化的bean 扩展bean
+ * 实现该类的bean 可以使用下面的两个方法 扩展bean
  */
 public interface BeanPostProcessor {
 

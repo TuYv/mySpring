@@ -4,7 +4,7 @@ import com.max.springframework.beans.BeansException;
 import com.max.springframework.beans.factory.ConfigurableListableBeanFactory;
 
 /**
- * 允许自定义修改 BeanDefinition 属性信息
+ * 提供一个接口允许用户自定义修改 BeanDefinition 属性信息
  */
 public interface BeanFactoryPostProcessor {
 

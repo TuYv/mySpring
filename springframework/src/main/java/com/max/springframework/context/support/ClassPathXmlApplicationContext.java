@@ -3,6 +3,7 @@ package com.max.springframework.context.support;
 import com.max.springframework.beans.BeansException;
 
 /**
+ * 通过配置一个/多个路径可以从xml中获取bean信息并调用了{@link AbstractApplicationContext} 中的refresh()方法 完成了BeanFactory的自动配置
  * @program: mySpring
  * @description: 文件应用上下文
  * @author: Max.Tu

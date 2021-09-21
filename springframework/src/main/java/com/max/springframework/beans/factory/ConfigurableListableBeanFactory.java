@@ -3,7 +3,6 @@ package com.max.springframework.beans.factory;
 import com.max.springframework.beans.BeansException;
 import com.max.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import com.max.springframework.beans.factory.config.BeanDefinition;
-import com.max.springframework.beans.factory.config.BeanPostProcessor;
 import com.max.springframework.beans.factory.config.ConfigurableBeanFactory;
 
 public interface ConfigurableListableBeanFactory extends ListableBeanFactory, AutowireCapableBeanFactory,
@@ -13,10 +12,4 @@ public interface ConfigurableListableBeanFactory extends ListableBeanFactory, Au
 
     void preInstantiateSingletons() throws BeansException;
 
-    void addBeanPostProcessor(BeanPostProcessor beanPostProcessor);
-
-    /**
-     * 销毁单例对象
-     */
-    void destroySingletons();
 }
