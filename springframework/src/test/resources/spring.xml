@@ -23,7 +23,9 @@
     <bean class="com.max.springframework.event.CustomEventListener"/>
     <bean class="com.max.springframework.event.ContextClosedEventListener"/>
 
-    <bean id="newUserService" class="com.max.springframework.beans.NewUserService"/>
+    <bean id="newUserService" class="com.max.springframework.beans.NewUserService">
+        <property name="token" value="RejDlI78hu223Opo983Ds"/>
+    </bean>
 
     <bean class="com.max.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
 

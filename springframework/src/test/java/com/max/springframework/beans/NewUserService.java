@@ -1,6 +1,5 @@
 package com.max.springframework.beans;
 
-import com.max.springframework.stereotype.Component;
 import java.util.Random;
 
 /**
@@ -9,7 +8,6 @@ import java.util.Random;
  * @author: Max.Tu
  * @create: 2021-09-23 11:19
  **/
-@Component("userService")
 public class NewUserService implements IUserService{
 
     private String token;
@@ -21,7 +19,7 @@ public class NewUserService implements IUserService{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return "小傅哥，100001，深圳";
+        return "小傅哥，100001，深圳" + token;
     }
 
     @Override
