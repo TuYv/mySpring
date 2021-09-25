@@ -1,5 +1,7 @@
 package com.max.springframework.aop;
 
+import com.max.springframework.util.ClassUtils;
+
 /**
  * @program: mySpring
  * @description:
@@ -19,7 +21,9 @@ public class TargetSource {
      * @return
      */
     public Class<?>[] getTargetClass() {
-        return this.targe.getClass().getInterfaces();
+        Class<?> clazz = this.targe.getClass();
+        clazz = ClassUtils.isCglibProxyClass(clazz)? clazz.getSuperclass() : clazz;
+        return clazz.getInterfaces();
     }
 
     public Object getTarget() {

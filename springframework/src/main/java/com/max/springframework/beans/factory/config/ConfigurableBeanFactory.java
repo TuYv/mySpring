@@ -1,6 +1,7 @@
 package com.max.springframework.beans.factory.config;
 
 import com.max.springframework.beans.factory.HierarchicalBeanFactory;
+import com.max.springframework.util.StringValueResolver;
 
 /**
  * 单例bean管理 和前置处理
@@ -21,4 +22,8 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
      * 销毁单例对象
      */
     void destroySingletons();
+
+    void addEmbeddedValueResolver(StringValueResolver valueResolver);
+
+    String resolveEmbeddedValue(String value);
 }

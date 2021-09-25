@@ -15,9 +15,9 @@ import com.max.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import com.max.springframework.beans.factory.config.BeanDefinition;
 import com.max.springframework.beans.factory.config.BeanPostProcessor;
 import com.max.springframework.beans.factory.config.BeanReference;
+import com.max.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 
 
 /**
@@ -40,6 +40,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             }
             //实例化bean
             bean = createBeanInstance(beanDefinition, beanName, args);
+            // 在设置 Bean属性之前， 允许 BeanPostProcessor 修改属性
+            applyBeanPostProcessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
             // 给 Bean 填充属性
             applyPropertyValues(beanName, bean, beanDefinition);
             // 执行 Bean 的初始化方法和 BeanPostProcessor 的前置和后置处理方法
@@ -55,6 +57,20 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             addSingleton(beanName,bean);
         }
         return bean;
+    }
+
+    protected void applyBeanPostProcessorsBeforeApplyingPropertyValues(String beanName, Object bean,
+        BeanDefinition beanDefinition) {
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                PropertyValues pvs = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessPropertyValues(beanDefinition.getPropertyValues(), bean, beanName);
+                if (null != pvs) {
+                    for (PropertyValue pv : pvs.getPropertyValues()) {
+                        beanDefinition.getPropertyValues().addPropertyValue(pv);
+                    }
+                }
+            }
+        }
     }
 
     protected Object resolveBeforeInstantiation(String beanName, BeanDefinition beanDefinition) {
