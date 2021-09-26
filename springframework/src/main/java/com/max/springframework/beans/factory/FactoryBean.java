@@ -4,7 +4,7 @@ public interface FactoryBean<T> {
 
     T getObject() throws Exception;
 
-    Class<T> getObjecType();
+    Class<?> getObjecType();
 
     boolean isSingleton();
 }

@@ -6,6 +6,7 @@ import com.max.springframework.aop.TargetSource;
 import com.max.springframework.aop.aspectj.AspectJExpressionPointcut;
 import com.max.springframework.aop.framework.Cglib2AopProxy;
 import com.max.springframework.aop.framework.JdkDynamicAopProxy;
+import com.max.springframework.beans.Husband;
 import com.max.springframework.beans.IUserService;
 import com.max.springframework.beans.NewUserService;
 import com.max.springframework.beans.PropertyValue;
@@ -13,6 +14,7 @@ import com.max.springframework.beans.PropertyValues;
 import com.max.springframework.beans.UserDao;
 import com.max.springframework.beans.UserService;
 import com.max.springframework.beans.UserServiceInterceptor;
+import com.max.springframework.beans.Wife;
 import com.max.springframework.beans.factory.config.BeanDefinition;
 import com.max.springframework.beans.factory.config.BeanReference;
 import com.max.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -238,5 +240,14 @@ public class ApiTest {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
         IUserService userService = applicationContext.getBean("newUserService", IUserService.class);
         System.out.println("测试结果：" + userService.queryUserInfo());
+    }
+
+    @Test
+    public void test_circular() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-circle.xml");
+        Husband husband = applicationContext.getBean("husband", Husband.class);
+        Wife wife = applicationContext.getBean("wife", Wife.class);
+        System.out.println("老公的媳妇：" + husband.queryWife());
+        System.out.println("媳妇的老公：" + wife.queryHusband());
     }
 }

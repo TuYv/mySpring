@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+	         http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="husband" class="com.max.springframework.beans.Husband">
+    <property name="wife" ref="wife"/>
+  </bean>
+
+  <bean id="wife" class="com.max.springframework.beans.Wife">
+    <property name="husband" ref="husband"/>
+    <property name="mother" ref="husbandMother"/>
+  </bean>
+
+  <bean id="husbandMother" class="com.max.springframework.beans.HusbandMother"/>
+
+  <!-- AOP 配置，验证三级缓存 -->
+  <bean class="com.max.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+  <bean id="beforeAdvice" class="com.max.springframework.beans.SpouseAdvice"/>
+
+  <bean id="methodInterceptor" class="com.max.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor">
+    <property name="advice" ref="beforeAdvice"/>
+  </bean>
+
+  <bean id="pointcutAdvisor" class="com.max.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+    <property name="expression" value="execution(* com.max.springframework.beans.Wife.*(..))"/>
+    <property name="advice" ref="methodInterceptor"/>
+  </bean>
+
+</beans>
